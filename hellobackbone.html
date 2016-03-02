@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第一个Backbone应用</title>
+
+    <script src="js/jquery-2.2.1.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/backbone.js"></script>
+    <script>
+        $(function () {
+            //定义模型类，并设置一些默认数据项
+            window.Test = Backbone.Model.extend({
+                //使用default方式设置模型实例化时，将复制默认数据项“content”
+                //在通常情况下，模型类中的默认数据项的值都为空，在实例化模型类时，才真正被实参所取代
+                default: {
+                    content: ''
+                }
+            });
+
+            //创建集合模型类
+            window.TestList = Backbone.Collection.extend({
+                //使用model方式声明该集合类继承了模型类Test
+                model: Test
+            });
+
+            //实例化一个集合类对象data，向模型添加数据
+            var data = new TestList({
+                content: 'hello, backbone!'
+            });
+
+            //创建View对象
+            window.TestView = Backbone.View.extend({
+                //el属性设置为$("body")表明针对整个页面元素部分
+                el: $("body"),
+                //在创建一个新实例时，视图类中的initialize()函数会自动被执行
+                initialize: function () {
+                    $("#divTip").html(data.models[0].get("content"));
+                }
+            });
+
+            //实例化View对象
+            window.App = new TestView;
+        });
+    </script>
+</head>
+<body>
+<div id="divTip"></div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>underscore中_.bindAll函数示例</title>
+
+    <script src="js/jquery-2.2.1.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/backbone.js"></script>
+</head>
+<body>
+<div id="divTip">点击我</div>
+
+<script>
+    var divView = {
+        ele: '#divTip',
+        tip: 'hello, underscore!',
+        onClick: function () {
+            $(this.ele).html(this.tip);
+        }
+    };
+
+    //将对象内部onClick方法与divView对象相绑定
+    //bindAll将多个方法绑定在指定对象中
+    _.bindAll(divView, 'onClick');
+    $(divView.ele).bind('click', divView.onClick);
+</script>
+</body>
+</html>
