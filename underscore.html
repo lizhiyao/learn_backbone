@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>underscore基础</title>
+
+    <script src="js/jquery-2.2.1.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/backbone.js"></script>
+</head>
+<body>
+<div id="content"></div>
+
+<script>
+    function showResult(content) {
+        $("#content").append("<div>" + content + "</div>");
+    }
+
+    //Underscore是一个非常简洁、实用的js库。它没有对原生的js对象进行扩展，而是调用_()方法进行封装，
+    //一旦封装完成，原生js对象便成为一个Underscore对象，可以通过调用value()方法访问封装前的原生js数据，
+    //还可以直接使用Underscore库中现存的函数
+    var data = {
+        name: "andy",
+        age: 23
+    };
+    var object = _(data);
+    showResult(object.value().name + "_" + object.value().age);
+
+    var arr = [12, 43, 56,1];
+    var arr_object = _(arr);
+    showResult("max: " + arr_object.max() + " min: " + arr_object.min());
+
+    //Underscore库中有60多个函数，按照处理对象的不同，可以划分为集合类、数组类、功能函数类、对象类、工具函数类这五大类型模块
+
+
+    //集合类
+    //遍历：each()和map() 两者最大的区别在于前者函数本身并不返回数据，后者返回一个新的数组
+    var col_arr = [1, 2, 3, 4, 5, 6];
+    _.each(col_arr, function (n) {
+        if (!(n % 2)) {
+            showResult(n);
+        }
+    });
+    var map_return = _.map(col_arr, function (n) {
+        if (!(n % 2)) {
+            return n;
+        }
+    });
+    showResult(map_return);
+    for (var i = 0; i < map_return.length; i++) {
+        var one = map_return[i];
+        if (one != undefined) {
+            showResult(i + "->" + one);
+        }
+    }
+
+    //无论是each()还是map()，如果参数list列表是一个js对象，iterator迭代器遍历时的参数则变为(value, key, list)
+    var each_map_object = {
+        a: 1,
+        b: 2,
+        c: 3
+    };
+    _.each(each_map_object, function (value, key, each_map_object) {
+        showResult(key + "->" + value);
+    });
+
+    //查找和过滤：find()和filter()
+    //_.find(list, iterator, [context])
+    //_.filter(list, iterator, [context])
+
+    //_.max(list, [iterator], [context])
+    //_.min(list, [iterator], [context])
+
+    //排序和分组
+    //_.sortBy(list, iterator, [context])
+    //_.groupBy(list, iterator, [context])
+
+
+    //数组
+    //_.first(array, [n])
+    //_.last(array, [n])
+
+    //查找某个元素是否存在于数组中。
+    //_.indexOf(array, value, [isSorted])
+    //_.lastIndexOf(array, value, [fromIndex])
+
+    //without()排除数组中某个元素
+    var without_arr = _.without([40, 62, 45, 1, 45, 54], 40, 45);
+    showResult(without_arr);
+
+    //将多个数组进行链接
+    var union_arr = _.union([1, 2], [3, 4], [5, 6]);
+    showResult(union_arr);
+
+
+    //函数
+    //推迟一段代码或者一个函数的执行
+    var delay_func = function (args) {
+        console.log('你输入的是： ' + args + ", 延时执行成功");
+    };
+    _.delay(delay_func, 5000, 'hello');
+
+    //once()函数类似于对变量进行打包初始化的过程。
+    //once()函数仅执行一次，再次执行时无效。因此，常用于对项目变量进行初始化赋值
+    var once_num, once_str;
+    var once_func = function () {
+        once_num = 0;
+        once_str = 'hello';
+        console.log('初始化成功');
+    };
+    var once_init = _.once(once_func);
+    once_init();
+    console.log("初始化之后 once_num:" + once_num + " once_str:" + once_str);
+
+    //warp()函数的作用是包装，包装方式是把函数本身包装至wrapper（包装外层）中
+    //在调用时，函数本身仅作为wrapper的一个参数进行传入
+    var input = function (n, s) {
+        return s ? n + "先生 " : n + "女士 ";
+    };
+    input = _.wrap(input, function (input) {
+        return "你好，" + input("李小帅", 1) + ", 欢迎来到Backbone世界";
+    });
+    showResult(input());
+
+    //compose()函数返回一个经过多个函数组合后的列表，用于计算在数学组一些比较复杂的运算
+    var A = function (a) {
+        return a * a;
+    };
+    var B = function (b) {
+        return b * b;
+    };
+    var C = function (c) {
+        return c * c;
+    };
+    var D = _.compose(A, B, C);    //执行顺序A(B(C()))
+    showResult(D(2));  // 256
+
+
+    //对象
+    //获取全部key或者value
+    var info = {
+        name: "andy",
+        sex: "男",
+        age: 23
+    };
+    var array_keys = _.keys(info);
+    var array_values = _.values(info);
+    showResult(array_keys);
+    showResult(array_values);
+
+    //挑选对象中的任意key属性 pick()
+    //排除对象中的任意key属性 omit()
+    var pick_info = _.pick(info, 'name', 'age');
+    showResult(JSON.stringify(pick_info));
+
+    var omit_info = _.omit(info, 'age');
+    showResult(JSON.stringify(omit_info));
+
+    //default()函数设置对象的默认属性值
+    var default_obj = {};
+    default_obj = _.defaults(info, {
+        name: "",
+        sex: "男",
+        age: 23
+    });
+    default_obj.name = "李小帅";
+    showResult(JSON.stringify(default_obj));
+
+    //has函数常用于调用对象某属性之前的检测，通过该功能可以避免调用对象空属性的错误
+    var show_str;
+    if (_.has(default_obj, 'score')) {
+        show_str = default_obj.score;
+    } else {
+        show_str = '对象中不包含该属性';
+    }
+    showResult(show_str);
+
+
+    //功能
+    //random()
+    var random_num0 = _.random(10);
+    var random_num1 = _.random(10, 30);
+    showResult('两个随机数分别为：' + random_num0 + ', ' + random_num1);
+
+    //escape()对指定字符串内容进行编码
+    //unescape()对指定字符串内容进行解码
+    var escape_str = _.escape("email/163'<guo>&rong-_.!~*''");
+    var unescape_str = _.unescape(escape_str);
+    console.log("编码后：" + escape_str);
+    console.log("编码器前：" + unescape_str);
+
+    //template()
+    //<% %>  标签中包含的通常是js代码，在页面渲染数据时被执行
+    //<%= %> 标签中包含的通常是变量名、函数名、对象属性，执行时直接展现调用后的数据
+    //<%- %> 标签在输出数据时，能将HTML标记转换成常用字符串形式，以避免代码的攻击
+
+
+
+</script>
+</body>
+</html>
