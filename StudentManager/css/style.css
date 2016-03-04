@@ -25,23 +25,9 @@ ul {
     padding-left: 3px;
     width: 457px;
 }
-.spanl {
-    float: left;
-}
-.spanr {
-    float: right;
-}
-.btn {
-    padding-top: 10px;
-    clear: both;
-}
 #pStatus {
     display: none;
-    border: 1px solid #ccc;
-    width: 158px;
-    background-color: #eee;
-    padding: 6px 12px;
-    margin-left: 2px;
+    margin-top: 20px;
 }
 #stuManager, #ulMessage {
     width: 460px;
@@ -69,7 +55,10 @@ ul {
     float: left;
     padding: 5px;
 }
-
+.editing input,
+.editing select {
+    width: 60px;
+}
 
 
 

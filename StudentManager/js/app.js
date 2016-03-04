@@ -77,18 +77,15 @@ $(function () {
             "click #btnAdd": "newStudent"
         },
         newStudent: function (e) {
-            console.log('newStudent');
             var stu = new Student();
             var objData = {};
             $("#Name, #Sex, #Score").each(function () {
                 objData[$(this).attr('name')] = $(this).val();
             });
-            console.log(objData);
             stu.bind('invalid', function (model, error) {
                 $("#pStatus").show().html(error);
             });
             if (stu.set(objData, { 'validate': true })) {
-                console.log(12121212)
                 Students.add(stu);
                 $("#pStatus").hide();
             }
@@ -98,15 +95,10 @@ $(function () {
             $("#StuID").val(Students.length + 1);
         },
         addData: function (stu) {
-            console.log(stu)
             stu.set({
                 "StuID": stu.get("StuID") || Students.length
             });
-            console.log(stu)
             var stuView = new StudentView({ model: stu });
-            console.log(stuView)
-            console.log(stuView.render())
-            console.log(stuView.render().el)
             $("#ulMessage").append(stuView.render().el);
             $("#Name, #Score").each(function () {
                 $(this).val("");
