@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Backbone.Events</title>
+
+    <script src="js/jquery-2.2.1.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/backbone.js"></script>
+    <script src="js/common.js"></script>
+</head>
+<body>
+<div id="content"></div>
+
+<script>
+    //on、off、trigger、once、listenTo、listenToOnce、stopListening
+    //on方法可以给一个对象的自定义事件绑定触发该事件时执行的函数
+    //once绑定一次
+    //trigger手动触发
+    //off移除绑定
+    var person = Backbone.Model.extend({
+        defaults: {
+            name: "",
+            age: 0
+        }
+    });
+    var man = new person();
+
+    man.on("change", function () {
+        showResult("对象的默认值发生了变化");
+    });
+    man.on("change:age", function (model, value) {
+        showResult("修改了age属性，最新值是" + value);
+        showResult("修改之前的对象为：" + JSON.stringify(model.previousAttributes()));
+        showResult("修改之前的age属性为：" + model.previous("age"));
+    });
+    man.on("change:name change:age", function (model, value) {
+        showResult("修改了age属性，最新值是" + value);
+        showResult("修改之前的对象为：" + JSON.stringify(model.previousAttributes()));
+        showResult("修改之前的age属性为：" + model.previous("age"));
+    });
+
+    var objEvent = {
+        "change:name": name_change,
+        "change:age": age_change
+    };
+    man.on(objEvent);
+    function name_change(model, value) {
+        var oldName = model.previous("name");
+        var newName = model.get("name");
+        if (oldName != newName) {
+            showResult("name原值：" + oldName + ", 新值：" + newName);
+        }
+    }
+    function age_change(model, value) {
+        var oldAge = model.previous("age");
+        var newAge = model.get("age");
+        if (oldAge != newAge) {
+            showResult("age原值：" + oldAge + ", 新值：" + newAge);
+        }
+    }
+    man.set("name", "andy");
+    man.set("age", "23");
+
+
+    //listenTo、listenToOnce与on监听对象不同
+    //on用于监听对象某时间的触发
+    //listenTo是一个对象监听另一个对象的时间，如果被监听的对象出发了被监听事件，执行相应的回调函数或代码块
+    //stopListening停止监听
+
+
+    //事件其他
+    //all 无论在对象触发任何自身事件或执行自定义函数时，都会执行
+
+    //在Backbone中，Events占有非常重要的地位，它以最小化模块的方式整合到Model、Collection、View类中
+</script>
+</body>
+</html>

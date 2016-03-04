@@ -7,15 +7,12 @@
     <script src="js/jquery-2.2.1.js"></script>
     <script src="js/underscore.js"></script>
     <script src="js/backbone.js"></script>
+    <script src="js/common.js"></script>
 </head>
 <body>
 <div id="content"></div>
 
 <script>
-    function showResult(content) {
-        $("#content").append("<div>" + content + "</div>");
-    }
-
     //Underscore是一个非常简洁、实用的js库。它没有对原生的js对象进行扩展，而是调用_()方法进行封装，
     //一旦封装完成，原生js对象便成为一个Underscore对象，可以通过调用value()方法访问封装前的原生js数据，
     //还可以直接使用Underscore库中现存的函数
