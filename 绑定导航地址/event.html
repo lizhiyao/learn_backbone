@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>event方式绑定url地址</title>
+
+    <script src="../js/jquery-2.2.1.js"></script>
+    <script src="../js/underscore.js"></script>
+    <script src="../js/backbone.js"></script>
+</head>
+<body>
+<div>
+    <a href="">首页</a>
+    <a href="#search">查询列表</a>
+    <a href="#search/abc">关键字查询</a>
+    <a href="#search/abc/p2">页码关键字查询</a>
+    <a href="#error">其他页</a>
+</div>
+<div id="divShow"></div>
+<script>
+    var $divShow = $("#divShow");
+    var testRouter = Backbone.Router.extend({
+        routes: {
+            '': 'main',
+            'search': 'search_list',
+            'search/:key': 'search_key',
+            'search/:key/:page': 'search_key_page',
+            '*search': 'search_default'
+        }
+    });
+    var router = new testRouter();
+    router.on("route:main", function () {
+        $divShow.html('首页');
+    });
+    router.on("route:search_list", function () {
+        $divShow.html('查询列表');
+    });
+    router.on("route:search_key", function (key) {
+        $divShow.html("查询关键字为：" + key + "记录");
+    });
+    router.on("route:search_key_page", function (key, page) {
+        $divShow.html("查询关键字为：" + key + "，页码为：" + page);
+    });
+    router.on("route:search_default", function () {
+        $divShow.html('其他页');
+    });
+    Backbone.history.start();
+</script>
+</body>
+</html>

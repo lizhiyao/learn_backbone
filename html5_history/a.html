@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML5 history</title>
+</head>
+<body>
+<div>记录总量：<span id="divNum"></span></div>
+<div>刷新前：<span id="divShow"></span></div>
+
+<script>
+    var obj_a_state = {
+        code: "10000",
+        name: "andy",
+        score: 100
+    };
+    window.history.pushState(obj_a_state, "HTML5 history", "b.html");
+    document.getElementById("divNum").innerHTML = window.history.length;
+    document.getElementById("divShow").innerHTML = JSON.stringify(window.history.state);
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>event方式绑定url地址</title>
+
+    <script src="../js/jquery-2.2.1.js"></script>
+    <script src="../js/underscore.js"></script>
+    <script src="../js/backbone.js"></script>
+</head>
+<body>
+<div>
+    <a href="#abc/p5">其他页</a>
+</div>
+<div id="divShow"></div>
+<script>
+    var $divShow = $("#divShow");
+    var testRouter = Backbone.Router.extend({
+        routes: {
+            '*path/p:page': 'search_other'
+        },
+        search_other: function (path, page) {
+            $divShow.html("路径为：" + path + "，页码为：" + page);
+        }
+    });
+    var router = new testRouter();
+    Backbone.history.start();
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用route方法声明匹配规则和执行函数</title>
+
+    <script src="../js/jquery-2.2.1.js"></script>
+    <script src="../js/underscore.js"></script>
+    <script src="../js/backbone.js"></script>
+</head>
+<body>
+<div>
+    <a href="">首页</a>
+    <a href="#search">查询列表</a>
+    <a href="#search/abc">关键字查询</a>
+    <a href="#search/abc/p2">页码关键字查询</a>
+    <a href="#error">其他页</a>
+</div>
+<div id="divShow"></div>
+<script>
+    var $divShow = $("#divShow");
+    var testRouter = Backbone.Router.extend({
+        routes: {
+            '': 'main',
+            'search/:key': 'search_key',
+            'search/:key/:page': 'search_key_page',
+            '*search': 'search_default'
+        },
+        initialize: function () {
+            //route方法的功能是动态修改url中hash属性的匹配规则和动作函数
+            this.route("search", "search_list", function () {
+                $divShow.html('初始化时，查询列表');
+            })
+        },
+        main: function () {
+            $divShow.html('首页');
+        },
+        search_key: function (key) {
+            $divShow.html("查询关键字为：" + key + "记录");
+        },
+        search_key_page: function (key, page) {
+            $divShow.html("查询关键字为：" + key + "，页码为：" + page);
+        },
+        search_default: function () {
+            $divShow.html('其他页');
+        }
+    });
+    var router = new testRouter();
+    router.route("search/:key/:page", "search_key_page", function (key, page) {
+        $divShow.html("实例化后，查询关键字为：" + key + "，页码为：" + page);
+    });
+    Backbone.history.start();
+
+
+    //navigate()的功能是自动跳转到指定的hash属性值中
+</script>
+</body>
+</html>
