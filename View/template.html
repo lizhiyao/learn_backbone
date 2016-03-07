@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Views</title>
+
+    <style>
+        .cls {
+            font-size: 30px;
+        }
+    </style>
+
+    <script src="../js/jquery-2.2.1.js"></script>
+    <script src="../js/underscore.js"></script>
+    <script src="../js/backbone.js"></script>
+
+</head>
+<body>
+<!--<div id="show"></div>-->
+<!--<script id="score-tpl" type="text/template">-->
+    <!--<%= score>600 ? "优秀": "及格" %>-->
+<!--</script>-->
+
+<ul id="ul-show"></ul>
+<script id="score-tpl" type="text/template">
+    <li>编号：<%= code %></li>
+    <li>姓名：<%= name %></li>
+    <li>分数：<%= score %></li>
+</script>
+
+<script>
+    //视图中的模板
+    //分为两个部分，第一部分是在页面中使用<script>元素定义
+    //在定义时，只要将<script>元素的type属性设置为“text/template”,表明该元素包含的代码区域都为模板区
+    //在模板区中，用<%= 变量名称 %>的形式定义变量，并且可以处理业务逻辑。
+    //然后在js代码中通过字典的方式给变量传值
+    //第二部分是在js代码中，通过_.template()函数访问页面中定义的模板内容。
+    //当重载模板内容时，可以通过字典的形式向模板中传递变量对应的值
+
+    //处理逻辑的模板
+//    var stuView = Backbone.View.extend({
+//        el: $("#show"),
+//        initialize: function () {
+//            this.template = _.template($("#score-tpl").html());
+//        },
+//        render: function (score) {
+//            this.$el.html(this.template({
+//                score: score
+//            }));
+//        }
+//    });
+//    var stuv = new stuView();
+//    stuv.render(700);
+
+    //显示多项内容的模板
+    var student = Backbone.Model.extend({
+        defaults: {
+            code: '',
+            name: '',
+            score: ''
+        }
+    });
+    var stus = new student({
+        code: '0000',
+        name: 'andy',
+        score: '100'
+    });
+    var stuView = Backbone.View.extend({
+        el: $("#ul-show"),
+        initialize: function () {
+            this.template = _.template($("#score-tpl").html());
+        },
+        render: function () {
+            this.$el.html(this.template(this.model.toJSON()));
+        }
+    });
+    var stuv = new stuView({
+        model: stus
+    });
+    stuv.render();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Views</title>
+
+    <style>
+        .cls {
+            font-size: 30px;
+        }
+    </style>
+
+    <script src="../js/jquery-2.2.1.js"></script>
+    <script src="../js/underscore.js"></script>
+    <script src="../js/backbone.js"></script>
+
+</head>
+<body>
+<div id="show" class="cls"></div>
+
+<script>
+//与模型和集合对象类似，在定义一个视图对象之前，需要构建一个视图类。
+//在构建视图类时，可以设置el属性关联DOM中的元素；
+//也可指定与视图相关的模型或集合类名，实现各个类之间对象的数据互访问。
+
+//视图的主要功能是将数据渲染至页面中，因此，在视图中必须能访问DOM元素，
+//而实现这一要求，只需要在构建视图类时添加DOM元素属性即可。
+
+//    var testView = Backbone.View.extend({
+//        id: 'show',
+//        className: 'cls',
+////        tagName: '',  //新元素名称，如果不设置，则为div元素
+////        attributes: {   //为该元素添加其他属性
+////            title: '',
+////            style: ''
+////        },
+//        render: function (content) {  //重载视图类提供的render函数。在重载过程中，重新渲染视图的内容
+//            this.el.innerHTML = content;
+//            document.body.appendChild(this.el);
+//        }
+//    });
+//    var test = new testView();
+//    test.render('hello, world');
+
+//    var testView = Backbone.View.extend({
+//        el: '#show',
+//        render: function (content) {  //重载视图类提供的render函数。在重载过程中，重新渲染视图的内容
+//            this.el.innerHTML = content;
+//        }
+//    });
+//    var test = new testView();
+//    test.render('hello, world');
+
+
+    //视图对象访问模型对象
+    //严格来说，视图对象通常是接受集合对象返回的数据集，并将数据在页面中进行渲染，并不直接访问模型对象。
+    //但是，也能直接访问对象模型。
+    //实现方式是：在实例化对象模型时，通过设置model属性值与需要访问的模型对象进行关联，关联之后，在视图类的
+    //内部，都以this.model的方式进行访问
+//    var student = Backbone.Model.extend({
+//        default: {
+//            code: '',
+//            name: '',
+//            score: ''
+//        }
+//    });
+//    var stus = new student({
+//        code: '0000',
+//        name: 'andy',
+//        score: '100'
+//    });
+//    var testView = Backbone.View.extend({
+//        el: '#show',
+//        render: function () {  //重载视图类提供的render函数。在重载过程中，重新渲染视图的内容
+//            this.el.innerHTML = JSON.stringify(this.model);
+//        }
+//    });
+//    var test = new testView({
+//        model: stus
+//    });
+//    test.render();
+
+
+    //视图对象访问集合对象
+//    var stuModels = [{
+//        code: '0000',
+//        name: 'Andy',
+//        score: '100'
+//    }, {
+//        code: '0001',
+//        name: 'peter',
+//        score: '90'
+//    }, {
+//        code: '0002',
+//        name: 'Jack',
+//        score: '80'
+//    }, {
+//        code: '0003',
+//        name: 'Bob',
+//        score: '70'
+//    }];
+//    var stuList = new Backbone.Collection(stuModels);
+//    var testView = Backbone.View.extend({
+//        el: '#show',
+//        render: function () {
+//            var curList = this.collection.models;
+//            for (var i = 0; i < curList.length; i++) {
+//                this.el.innerHTML += JSON.stringify(curList[i]) + "<br/>";
+//            }
+//        }
+//    });
+//    var test = new testView({
+//        collection: stuList
+//    });
+//    test.render();
+</script>
+</body>
+</html>
